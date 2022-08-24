@@ -72,6 +72,11 @@ botonVaciar.addEventListener('click', () => {
     carrito.length = 0
     actualizarCarrito()
     localStorage.clear();
+    swal({
+        title: 'Vaciaste el carrito con existo!',
+        icon: 'success',
+        confirmButtonText: 'Cool'
+    })
 })
 //Renderiza cards
 productos.forEach((producto) => {
@@ -116,6 +121,11 @@ const eliminarDelCarrito = (prodId) => {
     const indice = carrito.indexOf(item)
     carrito.splice(indice, 1)
     actualizarCarrito()
+    swal({
+        title: `Eliminaste ${item.nombre} del carrito!`,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+    })
 }
 //Actualiza el carrito
 const actualizarCarrito = () => {
