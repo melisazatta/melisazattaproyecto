@@ -1,54 +1,4 @@
-let productos = [
-    {
-        id: 1,
-        nombre: "Camisa",
-        img: "/assets/descarga.jpg",
-        precio: 3000,
-        //cantidad: 1
-    },
-    {
-        id: 2,
-        nombre: "Campera",
-        img: "/assets/descarga.jpg",
-        precio: 5000
-    },
-    {
-        id: 3,
-        nombre: "Zapatillas",
-        img: "/assets/descarga.jpg",
-        precio: 7000
-    },
-    {
-        id: 4,
-        nombre: "Pantalon",
-        img: "/assets/descarga.jpg",
-        precio: 2500
-    },
-    {
-        id: 5,
-        nombre: "Remera",
-        img: "/assets/descarga.jpg",
-        precio: 2300
-    },
-    {
-        id: 6,
-        nombre: "Jean",
-        img: "/assets/descarga.jpg",
-        precio: 6000
-    },
-    {
-        id: 7,
-        nombre: "Bufanda",
-        img: "/assets/descarga.jpg",
-        precio: 2000
-    },
-    {
-        id: 8,
-        nombre: "Sandalias",
-        img: "/assets/descarga.jpg",
-        precio: 4000
-    },
-]
+
 const contenedorProductos = document.getElementById('contenedor-productos');
 
 const contenedorCarrito = document.getElementById('contenedor-carrito');
@@ -59,6 +9,17 @@ const contadorCarrito = document.getElementById('contadorCarrito')
 const precioTotal = document.getElementById('precioTotal')
 
 let carrito = []
+
+//Consumo datos de api simulada en url mediante FETCH
+let url = 'https://www.mockachino.com/f6331d36-ef9d-4a/productos'
+
+fetch(url)
+    .then((response) => {
+         return response.json()
+    })
+    .then((json) => {
+        let productos = json.productos
+ 
 
 document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('carrito')){
@@ -75,26 +36,27 @@ botonVaciar.addEventListener('click', () => {
     swal({
         title: 'Vaciaste el carrito con existo!',
         icon: 'success',
-        confirmButtonText: 'Cool'
+        button: 'Ok'
     })
 })
 //Renderiza cards
 productos.forEach((producto) => {
+    const {id, nombre, img, precio} = producto
     const div = document.createElement('DIV');
     div.classList.add('producto');
     div.innerHTML = `
-    <img src=${producto.img} alt="">
-    <h2>${producto.nombre}</h2>
-    <p class="precioProducto">Precio: $ ${producto.precio}</p>
-    <button id="agregar${producto.id}" class="boton-agregar">Agregar <i class= "fas-fa-shopping-cart"></i></button>
+    <img src=${img} alt="">
+    <h2>${nombre}</h2>
+    <p class="precioProducto">Precio: $ ${precio}</p>
+    <button id="agregar${id}" class="boton-agregar">Agregar <i class= "fas-fa-shopping-cart"></i></button>
     `
 
     contenedorProductos.appendChild(div)
 
-    const boton = document.getElementById(`agregar${producto.id}`)
+    const boton = document.getElementById(`agregar${id}`)
 
     boton.addEventListener('click', () => {
-       agregarCarrito(producto.id) 
+       agregarCarrito(id) 
     })
     
 });
@@ -111,10 +73,11 @@ const agregarCarrito = (prodId) => {
 
     const item = productos.find((prod) => prod.id === prodId)
     carrito.push(item)
-    console.log(carrito)
+    //console.log(carrito)
 }
 actualizarCarrito()
 }
+})
 //Eliminar un producto del carrito
 const eliminarDelCarrito = (prodId) => {
     const item = carrito.find((prod) => prod.id === prodId)
@@ -124,7 +87,7 @@ const eliminarDelCarrito = (prodId) => {
     swal({
         title: `Eliminaste ${item.nombre} del carrito!`,
         icon: 'error',
-        confirmButtonText: 'Cool'
+        button: 'Ok'
     })
 }
 //Actualiza el carrito
@@ -132,13 +95,14 @@ const actualizarCarrito = () => {
     contenedorCarrito.innerHTML = ""
 
     carrito.forEach((prod) => {
+        const {id, nombre, img, precio} = prod
         const div = document.createElement('div')
         div.className = ('productoEnCarrito')
         div.innerHTML = `
-                    <p>${prod.nombre}</p>
-                    <p>Precio: $ ${prod.precio}</p>
+                    <p>${nombre}</p>
+                    <p>Precio: $ ${precio}</p>
                     
-                    <button onclick="eliminarDelCarrito(${prod.id})" class="boton-eliminar"><i class="fas fa-trash-alt"></i></button>
+                    <button onclick="eliminarDelCarrito(${id})" class="boton-eliminar"><i class="fas fa-trash-alt"></i></button>
         `//<p>Cantidad: <span id="cantidad">${prod.cantidad}</span></p>
 
         //guarda carrito en localStorage
