@@ -30,7 +30,7 @@ fetch(url)
                   <img src=${img} alt="">
                   <h2>${nombre}</h2>
                   <p class="precioProducto">Precio: $ ${precio}</p>
-                  <button id="agregar${id}" class="boton-agregar">Agregar <i class= "fas-fa-shopping-cart"></i></button>
+                  <button id="agregar${id}" class="btn boton-agregar">Agregar <i class= "fas-fa-shopping-cart"></i></button>
                   `;
 
       contenedorProductos.appendChild(div);
@@ -69,6 +69,7 @@ fetch(url)
     //Agregar al carrito
     const agregarCarrito = (prodId) => {
       const exist = carrito.some((prod) => prod.id === prodId);
+      
       if (exist) {
         const prod = carrito.map((prod) => {
           if (prod.id === prodId) {
@@ -79,6 +80,11 @@ fetch(url)
         const item = productos.find((prod) => prod.id === prodId);
         carrito.push(item);
         //console.log(carrito)
+        swal({
+          title: `Agregaste ${item.nombre} al carrito!`,
+          icon: "success",
+          button: "Ok",
+        });
       }
       actualizarCarrito();
     };
@@ -92,11 +98,11 @@ const eliminarDelCarrito = (prodId) => {
   const indice = carrito.indexOf(item);
   carrito.splice(indice, 1);
   actualizarCarrito();
-  swal({
-    title: `Eliminaste ${item.nombre} del carrito!`,
-    icon: "error",
-    button: "Ok",
-  });
+  // swal({
+  //   title: `Eliminaste ${item.nombre} del carrito!`,
+  //   icon: "error",
+  //   button: "Ok",
+  // });
   localStorage.setItem("carrito", JSON.stringify(carrito));
 };
 //Actualiza el carrito
@@ -127,3 +133,30 @@ const actualizarCarrito = () => {
     0
   );
 };
+
+
+
+
+const botonComprar = document.getElementById("comprar");
+
+botonComprar.addEventListener("click", () => {
+  if (carrito.length !==0)
+ {swal({
+    title: `Compra realizada con exito!`,
+    text: `Total a pagar: $ ${precioTotal.innerText}.`,
+    icon: "success",
+    button: "Ok",
+  });
+ 
+  carrito.length = 0;
+  actualizarCarrito();
+  localStorage.clear();}
+  else{
+    swal({
+      title: "El carrito está vacio!",
+      icon: "error",
+      button: "Ok",
+    });
+  }
+ 
+});
