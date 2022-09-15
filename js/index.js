@@ -8,8 +8,11 @@ const contadorCarrito = document.getElementById("contadorCarrito");
 const precioTotal = document.getElementById("precioTotal");
 
 // let carrito = [];
-let carrito = JSON.parse(localStorage.getItem('carrito')) !== null ? JSON.parse(localStorage.getItem('carrito')) : []
-console.log(carrito)
+let carrito =
+  JSON.parse(localStorage.getItem("carrito")) !== null
+    ? JSON.parse(localStorage.getItem("carrito"))
+    : [];
+console.log(carrito);
 
 //Consumo datos de api simulada en url mediante FETCH
 let url = "https://www.mockachino.com/f6331d36-ef9d-4a/productos";
@@ -50,9 +53,7 @@ fetch(url)
     //   }
     // });
 
-
-    actualizarCarrito()
-
+    actualizarCarrito();
 
     //Vaciar carrito y borrar del storage
     botonVaciar.addEventListener("click", () => {
@@ -69,11 +70,14 @@ fetch(url)
     //Agregar al carrito
     const agregarCarrito = (prodId) => {
       const exist = carrito.some((prod) => prod.id === prodId);
-      
+
       if (exist) {
         const prod = carrito.map((prod) => {
           if (prod.id === prodId) {
-            prod.cantidad++; //Falta
+            swal({
+              title: `${prod.nombre} ya está en el carrito!`,
+              icon: "error",
+            });
           }
         });
       } else {
@@ -88,8 +92,6 @@ fetch(url)
       }
       actualizarCarrito();
     };
-
-
   });
 
 //Eliminar un producto del carrito
@@ -98,11 +100,7 @@ const eliminarDelCarrito = (prodId) => {
   const indice = carrito.indexOf(item);
   carrito.splice(indice, 1);
   actualizarCarrito();
-  // swal({
-  //   title: `Eliminaste ${item.nombre} del carrito!`,
-  //   icon: "error",
-  //   button: "Ok",
-  // });
+
   localStorage.setItem("carrito", JSON.stringify(carrito));
 };
 //Actualiza el carrito
@@ -114,11 +112,12 @@ const actualizarCarrito = () => {
     const div = document.createElement("div");
     div.className = "productoEnCarrito";
     div.innerHTML = `
+                    <img class="cart-img" src=${img} alt="">
                     <p>${nombre}</p>
                     <p>Precio: $ ${precio}</p>
                     
                     <button onclick="eliminarDelCarrito(${id})" class="boton-eliminar"><i class="fas fa-trash-alt"></i></button>
-        `; //<p>Cantidad: <span id="cantidad">${prod.cantidad}</span></p>
+        `;
 
     //guarda carrito en localStorage
     contenedorCarrito.appendChild(div);
@@ -134,29 +133,27 @@ const actualizarCarrito = () => {
   );
 };
 
-
-
+//Boton comprar
 
 const botonComprar = document.getElementById("comprar");
 
 botonComprar.addEventListener("click", () => {
-  if (carrito.length !==0)
- {swal({
-    title: `Compra realizada con exito!`,
-    text: `Total a pagar: $ ${precioTotal.innerText}.`,
-    icon: "success",
-    button: "Ok",
-  });
- 
-  carrito.length = 0;
-  actualizarCarrito();
-  localStorage.clear();}
-  else{
+  if (carrito.length !== 0) {
+    swal({
+      title: `Compra realizada con exito!`,
+      text: `Total a pagar: $ ${precioTotal.innerText}.`,
+      icon: "success",
+      button: "Ok",
+    });
+
+    carrito.length = 0;
+    actualizarCarrito();
+    localStorage.clear();
+  } else {
     swal({
       title: "El carrito está vacio!",
       icon: "error",
       button: "Ok",
     });
   }
- 
 });

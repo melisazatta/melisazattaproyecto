@@ -4,7 +4,9 @@
     box-sizing: border-box;    
 }
 body{
-    background-image: url("https://cdn.wallpapersafari.com/70/25/BRpJDK.jpg");
+    background-image: linear-gradient(to right top, #ffffff, #eeeaff, #dcd6ff, #cac2ff, #b8aeff);
+    background-image: url('https://images.hdqwalls.com/download/abstract-digital-art-purple-background-5k-wr-1920x1080.jpg');
+    /* background-image: url("https://cdn.wallpapersafari.com/70/25/BRpJDK.jpg"); */
     /* https://i.pinimg.com/originals/3a/61/21/3a6121aca709f3af52ef08e73c08fd44.jpg */
     background-size: cover;
 }
@@ -213,11 +215,63 @@ margin-bottom: 1rem;
 .form{
     margin-top: 5rem;
     background-color: rgb(31, 22, 71);
+    margin-bottom: 15rem;
 }
 .textB{
     color: white;
 }
-footer {
+
+li {
+    list-style: none;
+    display: inline;
+    padding-left: 2rem;    
+}
+
+
+.cart-img {
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 2px 2px 8px rgb(89, 48, 185);
+}
+
+.error {
+    font-size: 1.3rem;
+    text-shadow: 1px 2px 10px rgb(192, 152, 255);
+}
+
+.redes {
+    width: 40px;
+}
+
+
+@media (max-width: 700px) {
+    h2, ul, li, a, p, .btn, footer{
+      font-size: 1rem;
+    }
+    .redes{
+        width: 10px;
+    }
+  }
+ 
+  /*Nosotros*/
+  .titulo {
+    padding-top: 5rem;
+    color: white;
+  }
+  .texto {
+    color: white;
+    font-size: 1.7rem;
+    background-color: rgb(31, 22, 71);
+    padding: 4rem;
+    margin-bottom: 10rem;
+  }
+  .carrousel {
+    padding-top: 4rem;
+    width: 60%;
+  }
+  
+  footer {
     background-color: black;
     color: white;
     text-shadow: 1px 1px 10px rgb(255, 255, 255);
@@ -231,9 +285,4 @@ footer {
     display: flex;
     justify-content: space-around;
 
-}
-li {
-    list-style: none;
-    display: inline;
-    padding-left: 2rem;    
 }
